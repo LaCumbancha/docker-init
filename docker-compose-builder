@@ -72,8 +72,8 @@ setNetwork() {
 	echo "  testing_net:" 								>> $DOCKER_COMPOSE_FILE
 	echo "    ipam:" 									>> $DOCKER_COMPOSE_FILE
 	echo "      driver: default" 						>> $DOCKER_COMPOSE_FILE
-	echo "        config:" 								>> $DOCKER_COMPOSE_FILE
-	echo "          - subnet: ${1}" 					>> $DOCKER_COMPOSE_FILE
+	echo "      config:" 								>> $DOCKER_COMPOSE_FILE
+	echo "        - subnet: ${1}" 						>> $DOCKER_COMPOSE_FILE
 }
 
 createDockerComposeFile

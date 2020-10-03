@@ -2,6 +2,7 @@ SHELL := /bin/bash
 PWD := $(shell pwd)
 
 GIT_REMOTE = github.com/7574-sistemas-distribuidos/docker-compose-init
+CLIENTS = 1
 
 default: build
 
@@ -16,7 +17,7 @@ build: deps
 .PHONY: build
 
 docker-image:
-	$(SHELL) docker-compose-builder
+	$(SHELL) docker-compose-builder --clients=$(CLIENTS)
 	docker build -f ./server/Dockerfile -t "server:latest" .
 	docker build -f ./client/Dockerfile -t "client:latest" .
 .PHONY: docker-image
