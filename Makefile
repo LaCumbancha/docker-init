@@ -16,6 +16,7 @@ build: deps
 .PHONY: build
 
 docker-image:
+	$(SHELL) docker-compose-builder
 	docker build -f ./server/Dockerfile -t "server:latest" .
 	docker build -f ./client/Dockerfile -t "client:latest" .
 .PHONY: docker-image
