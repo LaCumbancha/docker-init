@@ -33,6 +33,10 @@ docker-compose-logs:
 	docker-compose -f docker-compose-dev.yaml logs -f
 .PHONY: docker-compose-logs
 
-docker-shell:
-	docker container exec -it $(CONTAINER) /bin/bash
-.PHONE: docker-shell
+docker-server-shell:
+	docker container exec -it server /bin/bash
+.PHONE: docker-server-shell
+
+docker-client-shell:
+	docker container exec -it client$(ID) /bin/sh
+.PHONE: docker-client-shell
