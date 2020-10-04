@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 PWD := $(shell pwd)
+ID := 1
 
 GIT_REMOTE = github.com/7574-sistemas-distribuidos/docker-compose-init
 
