@@ -32,3 +32,7 @@ docker-compose-down:
 docker-compose-logs:
 	docker-compose -f docker-compose-dev.yaml logs -f
 .PHONY: docker-compose-logs
+
+docker-shell:
+	docker container exec -it $(CONTAINER) /bin/bash
+.PHONE: docker-shell
