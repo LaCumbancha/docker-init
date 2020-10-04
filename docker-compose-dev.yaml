@@ -27,6 +27,21 @@ services:
     depends_on:
       - server
 
+  client1:
+    container_name: client2
+    image: client:latest
+    entrypoint: /client
+    environment:
+      - CLI_ID=2
+      - CLI_SERVER_ADDRESS=server:12345
+      - CLI_CONFIG_FILE=/config/initialConfig.yaml
+    volumes:
+      - ./client/initialConfig.yaml:/config/initialConfig.yaml
+    networks:
+      - testing_net
+    depends_on:
+      - server
+
 networks:
   testing_net:
     ipam:
