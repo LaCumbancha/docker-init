@@ -7,8 +7,9 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - SERVER_IP=server
-      - SERVER_PORT=12345
-      - SERVER_LISTEN_BACKLOG=5
+      - SERVER_CONFIG_FILE=/config/initialConfig.yaml
+    volumes:
+      - ./server/initialConfig.yaml:/config/initialConfig.yaml
     networks:
       - testing_net
 

@@ -1,4 +1,0 @@
-## Usefull commands
-
-# Run shell in container
-docker container exec -it $(CONTAINER_NAME) /bin/bash
