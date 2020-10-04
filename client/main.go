@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"fmt"
 	"time"
+	"path/filepath"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
@@ -10,8 +12,7 @@ import (
 	"github.com/7574-sistemas-distribuidos/docker-compose-init/client/common"
 )
 
-// InitConfig Function that uses viper library to parse env variables. If
-// some of the variables cannot be parsed, an error is returned
+// InitConfig Function that uses viper library to parse env variables. If some of the variables cannot be parsed, an error is returned
 func InitConfig() (*viper.Viper, error) {
 	v := viper.New()
 
@@ -24,9 +25,22 @@ func InitConfig() (*viper.Viper, error) {
 	v.BindEnv("server", "address")
 	v.BindEnv("loop", "period")
 	v.BindEnv("loop", "lapse")
+	v.BindEnv("config", "file")
 
-	// Parse time.Duration variables and return an error
-	// if those variables cannot be parsed
+	// Read config file if it's present
+	if configFileName := v.GetString("config_file"); configFileName != "" {
+		path, file, ctype := GetConfigFile(configFileName)
+		v.SetConfigName(file)
+		v.SetConfigType(ctype)
+		v.AddConfigPath(path)
+		err := v.ReadInConfig()
+
+		if err != nil {
+			return nil, errors.Wrapf(err, fmt.Sprintf("Couldn't load config file"))
+		}
+	}
+
+	// Parse time.Duration variables and return an error if those variables cannot be parsed
 	if _, err := time.ParseDuration(v.GetString("loop_lapse")); err != nil {
 		return nil, errors.Wrapf(err, "Could not parse CLI_LOOP_LAPSE env var as time.Duration.")
 	}
@@ -36,6 +50,14 @@ func InitConfig() (*viper.Viper, error) {
 	}
 
 	return v, nil
+}
+
+func GetConfigFile(configFileName string) (string, string, string) {
+	path := filepath.Dir(configFileName)
+	file := filepath.Base(configFileName)
+	ctype := filepath.Ext(configFileName)[1:]
+
+	return path, file, ctype
 }
 
 func main() {
