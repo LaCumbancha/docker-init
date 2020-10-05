@@ -36,8 +36,14 @@ docker-compose-logs:
 
 docker-server-shell:
 	docker container exec -it server /bin/bash
-.PHONE: docker-server-shell
+.PHONY: docker-server-shell
 
 docker-client-shell:
 	docker container exec -it client$(ID) /bin/sh
-.PHONE: docker-client-shell
+.PHONY: docker-client-shell
+
+docker-server-test:
+	docker build -f ./test/Dockerfile -t "server-test:latest" .
+	chmod +x ./test/init-test
+	./test/init-test
+.PHONY: docker-server-test

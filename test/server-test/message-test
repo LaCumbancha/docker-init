@@ -1,0 +1,7 @@
+#!/bin/sh
+
+INPUT_MESSAGE="Test#1"
+OUTPUT_MESSAGE=$(echo "$INPUT_MESSAGE" | nc $1 $2)
+EXPECTED_MESSAGE="Your Message has been received: b'$INPUT_MESSAGE'"
+
+if [ "$OUTPUT_MESSAGE" = "$EXPECTED_MESSAGE" ]; then echo "Server works properly."; else echo "Server is failing."; fi

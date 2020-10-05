@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SERVER_IP=$(docker network inspect tp0_testing_net | \
+	python3 -c "import sys, json; print(list(filter(lambda x: x['Name'] == 'server', json.load(sys.stdin)[0]['Containers'].values()))[0]['IPv4Address'].split('/')[0])")
+
+SERVER_PORT=$(cat docker-compose-dev.yaml | grep SERVER_PORT | \
+	python3 -c "import sys; print(sys.stdin.read().split('=')[1])")
+
+chmod +x "./test/server-test/message-test"
+docker run --rm --name net-test --network=tp0_testing_net --mount type=bind,source=$PWD/test/server-test,target=/home "test:latest" -c "/home/message-test $SERVER_IP $SERVER_PORT"
