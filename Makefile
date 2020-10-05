@@ -36,8 +36,8 @@ docker-compose-logs:
 
 docker-server-shell:
 	docker container exec -it server /bin/bash
-.PHONE: docker-server-shell
+.PHONY: docker-server-shell
 
 docker-client-shell:
 	docker container exec -it client$(ID) /bin/sh
-.PHONE: docker-client-shell
+.PHONY: docker-client-shell
