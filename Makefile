@@ -2,6 +2,7 @@ SHELL := /bin/bash
 PWD := $(shell pwd)
 ID := 1
 
+PROJECT_NAME = tp0
 GIT_REMOTE = github.com/7574-sistemas-distribuidos/docker-compose-init
 
 default: build
@@ -22,12 +23,12 @@ docker-image:
 .PHONY: docker-image
 
 docker-compose-up: docker-image
-	docker-compose -f docker-compose-dev.yaml up -d --build
+	docker-compose -f docker-compose-dev.yaml --project-name $(PROJECT_NAME) up -d --build
 .PHONY: docker-compose-up
 
 docker-compose-down:
-	docker-compose -f docker-compose-dev.yaml stop -t 1
-	docker-compose -f docker-compose-dev.yaml down
+	docker-compose -f docker-compose-dev.yaml --project-name $(PROJECT_NAME) stop -t 1
+	docker-compose -f docker-compose-dev.yaml --project-name $(PROJECT_NAME) down
 .PHONY: docker-compose-down
 
 docker-compose-logs:
