@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 PWD := $(shell pwd)
+ID := 1
 
 GIT_REMOTE = github.com/7574-sistemas-distribuidos/docker-compose-init
 
@@ -33,6 +34,10 @@ docker-compose-logs:
 	docker-compose -f docker-compose-dev.yaml logs -f
 .PHONY: docker-compose-logs
 
-docker-shell:
-	docker container exec -it $(CONTAINER) /bin/bash
-.PHONE: docker-shell
+docker-server-shell:
+	docker container exec -it server /bin/bash
+.PHONY: docker-server-shell
+
+docker-client-shell:
+	docker container exec -it client$(ID) /bin/sh
+.PHONY: docker-client-shell
