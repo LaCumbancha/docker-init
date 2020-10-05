@@ -9,7 +9,7 @@ services:
       - SERVER_IP=server
       - SERVER_CONFIG_FILE=/config/initialConfig.yaml
     volumes:
-      - ./server/initialConfig.yaml:/config/initialConfig.yaml
+      - server-vol:/config
     networks:
       - testing_net
 
@@ -21,13 +21,13 @@ services:
       - CLI_SERVER_ADDRESS=server:12345
       - CLI_CONFIG_FILE=/config/initialConfig.yaml
     volumes:
-      - ./client/initialConfig.yaml:/config/initialConfig.yaml
+      - client-vol:/config
     networks:
       - testing_net
     depends_on:
       - server
 
-  client1:
+  client2:
     container_name: client2
     image: client:latest
     entrypoint: /client
@@ -36,11 +36,25 @@ services:
       - CLI_SERVER_ADDRESS=server:12345
       - CLI_CONFIG_FILE=/config/initialConfig.yaml
     volumes:
-      - ./client/initialConfig.yaml:/config/initialConfig.yaml
+      - client-vol:/config
     networks:
       - testing_net
     depends_on:
       - server
+
+volumes:
+  server-vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/server/config
+      o: bind
+  client-vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/client/config
+      o: bind
 
 networks:
   testing_net:
