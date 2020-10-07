@@ -1,4 +1,5 @@
 module github.com/7574-sistemas-distribuidos/docker-compose-init
+module github.com/LaCumbancha/docker-init
 
 go 1.13
 
