@@ -1,3 +1,11 @@
-FROM python:3.8
-COPY server /
+FROM golang:1.14
+
+RUN mkdir -p /build
+WORKDIR /build/
+COPY . .
+# CGO_ENABLED must be disabled to run go binary in Alpine
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -o bin/client github.com/LaCumbancha/docker-init/tree/exercise4/server
+
+FROM busybox:latest
+COPY --from=0 /build/bin/client /client
 ENTRYPOINT ["/bin/sh"]

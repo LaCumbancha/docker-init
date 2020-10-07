@@ -2,9 +2,7 @@ package common
 
 import (
 	"bufio"
-	//"fmt"
 	"net"
-	//"time"
 	"strings"
 
 	log "github.com/sirupsen/logrus"

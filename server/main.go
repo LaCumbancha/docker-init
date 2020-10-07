@@ -1,13 +1,10 @@
 package main
 
 import (
-	//"fmt"
 	"log"
 
 	"github.com/spf13/viper"
-	//"github.com/LaCumbancha/docker-init/tree/exercise4/server/common"
-
-	"./common"
+	"github.com/LaCumbancha/docker-init/tree/exercise4/server/common"
 )
 
 // InitConfig Function that uses viper library to parse env variables. If
