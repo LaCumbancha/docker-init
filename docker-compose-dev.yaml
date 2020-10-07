@@ -18,7 +18,6 @@ services:
     image: client:latest
     entrypoint: /client
     environment:
-      - CLI_SERVER_ADDRESS=server:12345
       - CLI_CONFIG_FILE=/config/initialConfig.yaml
     volumes:
       - client-vol:/config
@@ -33,7 +32,6 @@ services:
     entrypoint: /client
     environment:
       - CLI_ID=2
-      - CLI_SERVER_ADDRESS=server:12345
       - CLI_CONFIG_FILE=/config/initialConfig.yaml
     volumes:
       - client-vol:/config
