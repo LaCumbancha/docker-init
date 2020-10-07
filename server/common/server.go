@@ -5,14 +5,14 @@ import (
 	//"fmt"
 	"net"
 	//"time"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 // ServerConfig Configuration used by the server
 type ServerConfig struct {
-	Port			string
-	ListenBacklog 	string
+	Port string
 }
 
 // Server Entity that encapsulates how
@@ -29,6 +29,14 @@ func NewServer(config ServerConfig) *Server {
 	return server
 }
 
+func ParseAddress(address string) (string, string) {
+	split := strings.Split(address, ":")
+	ip := split[0]
+	port := split[1]
+
+	return ip, port
+}
+
 // Accepting connections
 func (s *Server) acceptConnections(listener net.Listener) chan net.Conn {
 	channel := make(chan net.Conn)
@@ -38,12 +46,15 @@ func (s *Server) acceptConnections(listener net.Listener) chan net.Conn {
 			client, err := listener.Accept()
 
 			if client == nil || err != nil {
-				log.Errorf("[SERVER] Couldn't accept client", err)
+				log.Errorf("Couldn't accept client", err)
 				continue
 			}
 
-			log.Infof("[SERVER] Client accepted at %s", client.RemoteAddr().String())
+			ip, port := ParseAddress(client.RemoteAddr().String())
+			log.Infof("Got connection from ('%s', %s).", ip, port)
+
 			channel <- client
+			log.Infof("Proceed to accept new connections.")
 		}
 	}()
 
@@ -59,6 +70,9 @@ func (s *Server) handleConnections(client net.Conn) {
 		if err != nil {
 			break
 		}
+
+		ip, port := ParseAddress(client.RemoteAddr().String())
+		log.Infof("Message received from connection ('%s', %s). Msg: %s", ip, port, string(line))
 
 		client.Write(line)
 	}

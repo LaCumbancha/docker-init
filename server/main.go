@@ -21,7 +21,6 @@ func InitConfig() (*viper.Viper) {
 
 	// Add env variables supported
 	v.BindEnv("port")
-	v.BindEnv("listen", "backlog")
 
 	return v
 }
@@ -30,19 +29,13 @@ func main() {
 	v := InitConfig()
 
 	port := v.GetString("port")
-	listenBacklog := v.GetString("listen_backlog")
 	
 	if port == "" {
 		log.Fatalf("Port variable missing")
 	}
 
-	if listenBacklog == "" {
-		log.Fatalf("ListenBacklog variable missing")
-	}
-
 	serverConfig := common.ServerConfig {
-		Port:				port,
-		ListenBacklog:		listenBacklog,
+		Port: port,
 	}
 
 	server := common.NewServer(serverConfig)
